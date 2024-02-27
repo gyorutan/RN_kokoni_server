@@ -1,15 +1,11 @@
 const bcrypt = require("bcrypt");
-const { db } = require("../..");
+const User = require("../models/User");
 
 exports.signUp = async (res, body) => {
   try {
     const { name, username, studentId, password } = body;
 
-    const usernameExisting = await db.user.findUnique({
-      where: {
-        username,
-      },
-    });
+    const usernameExisting = await User.findOne({ username });
 
     if (usernameExisting) {
       return res.json({
@@ -18,11 +14,7 @@ exports.signUp = async (res, body) => {
       });
     }
 
-    const studentIdExisting = await db.user.findUnique({
-      where: {
-        studentId,
-      },
-    });
+    const studentIdExisting = await User.findOne({ studentId });
 
     if (studentIdExisting) {
       return res.json({
@@ -33,14 +25,12 @@ exports.signUp = async (res, body) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const createdUser = await db.user.create({
-      data: {
-        name,
-        username,
-        studentId,
-        email: studentId + "@shinshu-u.ac.jp",
-        password: hashedPassword,
-      },
+    const createdUser = await User.create({
+      name,
+      username,
+      studentId,
+      email: studentId + "@shinshu-u.ac.jp",
+      password: hashedPassword,
     });
 
     console.log({ createdUser });
@@ -64,11 +54,7 @@ exports.logIn = async (res, body) => {
   try {
     const { studentId, password } = body;
 
-    const user = await db.user.findUnique({
-      where: {
-        studentId,
-      },
-    });
+    const user = await User.findOne({ studentId });
 
     if (!user) {
       return res.json({

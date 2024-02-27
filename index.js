@@ -1,9 +1,9 @@
-const { PrismaClient } = require("@prisma/client");
-
 const express = require("express");
 require("dotenv").config();
 
-exports.db = new PrismaClient();
+const { connectDB } = require("./src/libs/database");
+
+connectDB();
 
 const app = express();
 
