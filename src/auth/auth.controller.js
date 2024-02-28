@@ -1,4 +1,4 @@
-const { signUp, logIn } = require("../auth/auth.service");
+const { signUp, logIn, validateEmail } = require("../auth/auth.service");
 
 exports.signUp = async (req, res) => {
   const body = await req.body;
@@ -8,6 +8,11 @@ exports.signUp = async (req, res) => {
 exports.logIn = async (req, res) => {
   const body = await req.body;
   return await logIn(res, body);
+};
+
+exports.validateEmail = async (req, res) => {
+  const body = await req.body;
+  return await validateEmail(res, body);
 };
 
 //   exports.logOut = async (req, res) => {

@@ -104,6 +104,22 @@ exports.logIn = async (res, body) => {
   }
 };
 
+exports.validateEmail = async (res, body) => {
+  try {
+    const { email } = body;
+    const emailExisting = await User.findOne({ email });
+
+    if (emailExisting) {
+      return res.json({ success: false, message: "이미 가입된 이메일입니다" });
+    }
+
+    return res.json({ success: true });
+  } catch (error) {
+    console.log(error);
+    return res.json({ success: false, message: "서버에러" });
+  }
+};
+
 // exports.checkUsername = async (res, value) => {
 //   const user = await User.findOne({ username: value });
 
