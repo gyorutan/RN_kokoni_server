@@ -11,8 +11,8 @@ exports.logIn = async (req, res) => {
 };
 
 exports.validateEmail = async (req, res) => {
-  const body = await req.body;
-  return await validateEmail(res, body);
+  const { email } = await req.params;
+  return await validateEmail(res, email);
 };
 
 //   exports.logOut = async (req, res) => {

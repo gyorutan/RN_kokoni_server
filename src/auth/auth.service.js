@@ -104,16 +104,22 @@ exports.logIn = async (res, body) => {
   }
 };
 
-exports.validateEmail = async (res, body) => {
+exports.validateEmail = async (res, email) => {
   try {
-    const { email } = body;
+    if (!email) {
+      return res.json({
+        success: false,
+        message: "이메일이 존재하지 않습니다",
+      });
+    }
+
     const emailExisting = await User.findOne({ email });
 
     if (emailExisting) {
       return res.json({ success: false, message: "이미 가입된 이메일입니다" });
     }
 
-    return res.json({ success: true });
+    return res.json({ success: true, message: "사용 가능한 이메일입니다" });
   } catch (error) {
     console.log(error);
     return res.json({ success: false, message: "서버에러" });
