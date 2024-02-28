@@ -114,7 +114,7 @@ exports.validateEmail = async (res, email) => {
       });
     }
 
-    if (!email.include("shinshu-u.ac.jp")) {
+    if (!email.includes("shinshu-u.ac.jp")) {
       return res.json({
         success: false,
         message: "⚠  학교 이메일을 입력해주세요",
