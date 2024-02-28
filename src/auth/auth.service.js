@@ -104,41 +104,30 @@ exports.logIn = async (res, body) => {
   }
 };
 
-exports.validateEmail = async (res, email) => {
+exports.validateStudentId = async (res, studentId) => {
   try {
-    if (!email) {
+    if (!studentId) {
       return res.json({
         success: false,
-        message: "⚠  이메일이 존재하지 않습니다",
-        cause: "no-value",
+        message: "⚠  학번이 존재하지 않습니다",
       });
     }
 
-    if (!email.includes("shinshu-u.ac.jp")) {
+    const studentIdExisting = await User.findOne({ studentId });
+
+    if (studentIdExisting) {
       return res.json({
         success: false,
-        message: "⚠  학교 이메일을 입력해주세요",
-        cause: "not-school-email",
+        message: "⚠  사용중인 학번입니다",
       });
     }
 
-    const emailExisting = await User.findOne({ email });
-
-    if (emailExisting) {
-      return res.json({
-        success: false,
-        message: "⚠  사용중인 이메일입니다",
-        cause: "already-exist",
-      });
-    }
-
-    return res.json({ success: true, message: "사용 가능한 이메일입니다" });
+    return res.json({ success: true, message: "사용 가능한 학번입니다" });
   } catch (error) {
     console.log(error);
     return res.json({
       success: false,
-      message: "⚠  서버에러",
-      cause: "server-error",
+      message: "⚠  Server Error",
     });
   }
 };

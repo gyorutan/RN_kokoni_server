@@ -2,14 +2,14 @@ const router = require("express").Router();
 const {
   signUp,
   logIn,
-  validateEmail,
+  validateStudentId,
   //   checkUsername,
   //   checkStudentId,
 } = require("../auth/auth.controller");
 
 router.post("/signup", signUp);
 router.post("/login", logIn);
-router.get("/:email", validateEmail);
+router.get("/:studentId", validateStudentId);
 
 // router.get("/logout", logOut);
 // router.get("/username/:value", checkUsername);
